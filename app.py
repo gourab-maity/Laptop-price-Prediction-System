@@ -145,6 +145,6 @@ if st.button("Predict Price"):
     st.subheader("🔍 Similar Laptops:")
 
     for _, row in filtered.head(5).iterrows():
-        st.write(f"💻 **{row['brand']} - {row['Name']}**")
-        st.write(f"💰 Price: ₹{row['price_rs']:,}")
+        st.write(f" **{row['brand']} - {row['Name']}**")
+        st.write(f"Price: ₹{row['price_rs']:,}")
         st.write("---")
