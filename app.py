@@ -114,16 +114,16 @@ input_df = input_df.reindex(columns=columns, fill_value=0)
 # ---------- PREDICTION ----------
 if st.button("Predict Price"):
 
-    # 🔄 Loading animation
+    # Loading animation
     with st.spinner("Predicting price..."):
         prediction = model.predict(input_df)
 
     predicted_price = int(prediction[0])
 
-    # ✅ Main result
+    # Main result
     st.success(f"Estimated Price: ₹{predicted_price:,}")
 
-    # 💰 Price range
+    # Price range
     low = int(predicted_price * 0.9)
     high = int(predicted_price * 1.1)
     st.info(f"Expected Price Range: ₹{low:,} - ₹{high:,}")
