@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide"
 )
 # TITLE
-st.title("💻 Laptop Price Predictor")
+st.title("Laptop Price Predictor")
 st.write("Predict laptop prices using Machine Learning")
 # FIRST ROW
 col1, col2, col3 = st.columns(3)
@@ -236,7 +236,7 @@ if st.button("Predict Price"):
             by='price_diff'
         )
     # SHOW RECOMMENDATIONS
-    st.subheader("🔍 Recommended Laptops")
+    st.subheader("Recommended Laptops")
     for _, row in filtered.head(5).iterrows():
         gaming_value = row.get(
             'Gaming',
