@@ -14,7 +14,7 @@ st.set_page_config(
 )
 # TITLE
 st.title("Laptop Price Predictor")
-st.write("Predict laptop prices using Machine Learning")
+st.write("Predict laptop prices using Machine Learning algorithms")
 # FIRST ROW
 col1, col2, col3 = st.columns(3)
 # BRAND
