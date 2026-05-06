@@ -1,7 +1,3 @@
 streamlit
 pandas
 scikit-learn
-
-Use this link to access the site: 
-
-https://laptop-price-prediction-system-by-gourab-maity.streamlit.app/
