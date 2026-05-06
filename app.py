@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import pickle
 import pandas as pd
@@ -370,4 +369,3 @@ if st.button("Predict Price"):
 
         ---
         """)
-```
