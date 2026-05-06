@@ -1,9 +1,7 @@
 import streamlit as st
 import pickle
 import pandas as pd
-
 # LOAD MODEL + DATASET
-
 model = pickle.load(open('model.pkl', 'rb'))
 columns = pickle.load(open('columns.pkl', 'rb'))
 df = pd.read_csv("data.csv", encoding="latin1")
@@ -14,7 +12,6 @@ st.set_page_config(
     page_icon="💻",
     layout="wide"
 )
-
 # TITLE
 st.title("💻 Laptop Price Predictor")
 st.write("Predict laptop prices using Machine Learning")
@@ -35,10 +32,8 @@ with col1:
             "Samsung"
         ]
     )
-
 # CPU BRAND
 with col2:
-
     cpu_brand = st.selectbox(
         "CPU Brand",
         [
@@ -60,21 +55,11 @@ with col3:
             "64 GB"
         ]
     )
-
 ram = int(ram_option.split()[0])
-
-
 # SECOND ROW
-
-
 col4, col5, col6 = st.columns(3)
-
-
 # GPU BRAND
-
-
 with col4:
-
     gpu_brand = st.selectbox(
         "GPU Brand",
         [
@@ -185,16 +170,16 @@ else:
 st.write(f"Performance Level: **{spec_level}**")
 # CONFIGURATION PREVIEW
 st.subheader("📋 Selected Configuration")
-st.write(f"🏢 Brand: {brand}")
-st.write(f"🧠 CPU Brand: {cpu_brand}")
-st.write(f"🎮 GPU Brand: {gpu_brand}")
-st.write(f"💾 RAM: {ram} GB")
-st.write(f"🗂 Storage: {storage} GB")
-st.write(f"🖥 Display Size: {display_size} inch")
-st.write(f"📺 Resolution: {resolution}")
-st.write(f"🎯 Gaming Laptop: {gaming_option}")
-st.write(f"💻 Operating System: {os}")
-st.write(f"⚡ Performance Level: {spec_level}")
+st.write(f"Brand: {brand}")
+st.write(f"CPU Brand: {cpu_brand}")
+st.write(f"GPU Brand: {gpu_brand}")
+st.write(f"RAM: {ram} GB")
+st.write(f"Storage: {storage} GB")
+st.write(f"Display Size: {display_size} inch")
+st.write(f"Resolution: {resolution}")
+st.write(f"Gaming Laptop: {gaming_option}")
+st.write(f"Operating System: {os}")
+st.write(f"Performance Level: {spec_level}")
 # CREATE INPUT DICTIONARY
 input_dict = {
     'RAM': ram,
