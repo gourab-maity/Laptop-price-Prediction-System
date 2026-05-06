@@ -34,7 +34,10 @@ st.write("Predict laptop prices using Machine Learning")
 
 col1, col2, col3 = st.columns(3)
 
+# --------------------------------------------
 # BRAND
+# --------------------------------------------
+
 with col1:
 
     brand = st.selectbox(
@@ -44,29 +47,32 @@ with col1:
             "Dell",
             "Lenovo",
             "Asus",
-            "Acer"
+            "Acer",
+            "Apple",
+            "MSI",
+            "Samsung"
         ]
     )
 
+# --------------------------------------------
 # CPU BRAND
+# --------------------------------------------
+
 with col2:
 
     cpu_brand = st.selectbox(
         "CPU Brand",
         [
-            "Intel Core i3",
-            "Intel Core i5",
-            "Intel Core i7",
-            "Intel Core i9",
-            "AMD Ryzen 5",
-            "AMD Ryzen 7",
-            "AMD Ryzen 9",
-            "Apple M1",
-            "Apple M2"
+            "Intel",
+            "AMD",
+            "Apple (M Series)"
         ]
     )
 
+# --------------------------------------------
 # RAM
+# --------------------------------------------
+
 with col3:
 
     ram_option = st.selectbox(
@@ -88,23 +94,25 @@ ram = int(ram_option.split()[0])
 
 col4, col5, col6 = st.columns(3)
 
+# --------------------------------------------
 # GPU BRAND
+# --------------------------------------------
+
 with col4:
 
     gpu_brand = st.selectbox(
         "GPU Brand",
         [
             "Integrated",
-            "NVIDIA GTX 1650",
-            "NVIDIA RTX 3050",
-            "NVIDIA RTX 3060",
-            "NVIDIA RTX 4050",
-            "NVIDIA RTX 4060",
+            "NVIDIA",
             "AMD Radeon"
         ]
     )
 
+# --------------------------------------------
 # OPERATING SYSTEM
+# --------------------------------------------
+
 with col5:
 
     os = st.selectbox(
@@ -112,11 +120,15 @@ with col5:
         [
             "Windows 10",
             "Windows 11",
-            "Linux"
+            "Linux",
+            "macOS"
         ]
     )
 
+# --------------------------------------------
 # STORAGE
+# --------------------------------------------
+
 with col6:
 
     storage_option = st.selectbox(
@@ -130,7 +142,9 @@ with col6:
         ]
     )
 
+# --------------------------------------------
 # STORAGE CONVERSION
+# --------------------------------------------
 
 storage_map = {
 
@@ -150,7 +164,10 @@ storage = storage_map[storage_option]
 
 col7, col8, col9 = st.columns(3)
 
+# --------------------------------------------
 # DISPLAY SIZE
+# --------------------------------------------
+
 with col7:
 
     display_option = st.selectbox(
@@ -166,7 +183,10 @@ with col7:
 
 display_size = float(display_option.split()[0])
 
+# --------------------------------------------
 # SCREEN RESOLUTION
+# --------------------------------------------
+
 with col8:
 
     resolution = st.selectbox(
@@ -179,7 +199,10 @@ with col8:
         ]
     )
 
+# --------------------------------------------
 # GAMING
+# --------------------------------------------
+
 with col9:
 
     gaming_option = st.selectbox(
@@ -228,7 +251,9 @@ spec_rating = st.slider(
     step=1
 )
 
+# ============================================
 # PERFORMANCE LEVEL
+# ============================================
 
 if spec_rating < 50:
 
@@ -250,31 +275,48 @@ st.write(f"Performance Level: **{spec_level}**")
 
 st.subheader("📋 Selected Configuration")
 
-st.write(f"Brand: {brand}")
-st.write(f"CPU: {cpu_brand}")
-st.write(f"GPU: {gpu_brand}")
-st.write(f"RAM: {ram} GB")
-st.write(f"Storage: {storage} GB")
-st.write(f"Display Size: {display_size} inch")
-st.write(f"Resolution: {resolution}")
-st.write(f"Gaming Laptop: {gaming_option}")
-st.write(f"Operating System: {os}")
-st.write(f"Performance Level: {spec_level}")
+st.write(f"🏢 Brand: {brand}")
+
+st.write(f"🧠 CPU Brand: {cpu_brand}")
+
+st.write(f"🎮 GPU Brand: {gpu_brand}")
+
+st.write(f"💾 RAM: {ram} GB")
+
+st.write(f"🗂 Storage: {storage} GB")
+
+st.write(f"🖥 Display Size: {display_size} inch")
+
+st.write(f"📺 Resolution: {resolution}")
+
+st.write(f"🎯 Gaming Laptop: {gaming_option}")
+
+st.write(f"💻 Operating System: {os}")
+
+st.write(f"⚡ Performance Level: {spec_level}")
 
 # ============================================
-# CREATE INPUT DATA
+# CREATE INPUT DICTIONARY
 # ============================================
 
 input_dict = {
 
     'RAM': ram,
+
     'storage': storage,
+
     'display_size': display_size,
+
     'spec_rating': spec_rating,
+
     'Gaming': gaming,
+
     'resolution_width': res_w,
+
     'resolution_height': res_h,
+
     'brand': brand,
+
     'OS': os
 
 }
@@ -291,7 +333,9 @@ input_df = pd.DataFrame([input_dict])
 
 input_df = pd.get_dummies(input_df)
 
+# ============================================
 # MATCH TRAINING COLUMNS
+# ============================================
 
 input_df = input_df.reindex(
     columns=columns,
@@ -304,27 +348,28 @@ input_df = input_df.reindex(
 
 if st.button("Predict Price"):
 
-    # ========================================
+    # ----------------------------------------
     # PREDICTION
-    # ========================================
+    # ----------------------------------------
 
     prediction = model.predict(input_df)
 
     predicted_price = int(prediction[0])
 
-    # ========================================
+    # ----------------------------------------
     # SHOW PREDICTED PRICE
-    # ========================================
+    # ----------------------------------------
 
     st.success(
         f"Estimated Price: ₹{predicted_price:,}"
     )
 
-    # ========================================
+    # ----------------------------------------
     # PRICE RANGE
-    # ========================================
+    # ----------------------------------------
 
     lower_price = predicted_price - 10000
+
     upper_price = predicted_price + 10000
 
     st.info(
@@ -332,7 +377,7 @@ if st.button("Predict Price"):
     )
 
     # ========================================
-    # SIMILAR LAPTOP FILTER
+    # FIND SIMILAR LAPTOPS
     # ========================================
 
     filtered = df[
@@ -342,9 +387,9 @@ if st.button("Predict Price"):
 
     ]
 
-    # ========================================
+    # ----------------------------------------
     # RELAX FILTER
-    # ========================================
+    # ----------------------------------------
 
     if filtered.empty:
 
@@ -352,9 +397,9 @@ if st.button("Predict Price"):
             (df['RAM'] == ram)
         ]
 
-    # ========================================
+    # ----------------------------------------
     # FINAL FALLBACK
-    # ========================================
+    # ----------------------------------------
 
     if filtered.empty:
 
