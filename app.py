@@ -9,7 +9,7 @@ df = pd.read_csv("data.csv", encoding="latin1")
 # PAGE SETTINGS
 st.set_page_config(
     page_title="Laptop Price Predictor",
-    page_icon="💻",
+    page_icon="",
     layout="wide"
 )
 # TITLE
@@ -243,12 +243,12 @@ if st.button("Predict Price"):
             row.get('gaming', 0)
         )
         st.markdown(f"""
-        ### 💻 {row['brand']} - {row['Name']}
-        - 💾 RAM: {row['RAM']} GB
-        - 🗂 Storage: {row['storage']} GB
-        - 🖥 Display Size: {row['display_size']} inch
-        - 🎮 Gaming Laptop:
+        ###  {row['brand']} - {row['Name']}
+        -  RAM: {row['RAM']} GB
+        -  Storage: {row['storage']} GB
+        -  Display Size: {row['display_size']} inch
+        -  Gaming Laptop:
         {"Yes" if gaming_value == 1 else "No"}
-        - 💰 Price: ₹{row['price_rs']:,}
+        -  Price: ₹{row['price_rs']:,}
         ---
         """)
