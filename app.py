@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 
 # ============================================
-# LOAD MODEL + DATA
+# LOAD MODEL + DATASET
 # ============================================
 
 model = pickle.load(open('model.pkl', 'rb'))
@@ -11,7 +11,7 @@ columns = pickle.load(open('columns.pkl', 'rb'))
 df = pd.read_csv("data.csv", encoding="latin1")
 
 # ============================================
-# PAGE TITLE
+# PAGE SETTINGS
 # ============================================
 
 st.set_page_config(
@@ -20,17 +20,17 @@ st.set_page_config(
     layout="wide"
 )
 
+# ============================================
+# TITLE
+# ============================================
+
 st.title("💻 Laptop Price Predictor")
 
 st.write("Predict laptop prices using Machine Learning")
 
 # ============================================
-# INPUT SECTION
-# ============================================
-
-# --------------------------------------------
 # FIRST ROW
-# --------------------------------------------
+# ============================================
 
 col1, col2, col3 = st.columns(3)
 
@@ -48,7 +48,7 @@ with col1:
         ]
     )
 
-# CPU
+# CPU BRAND
 with col2:
 
     cpu_brand = st.selectbox(
@@ -88,7 +88,7 @@ ram = int(ram_option.split()[0])
 
 col4, col5, col6 = st.columns(3)
 
-# GPU
+# GPU BRAND
 with col4:
 
     gpu_brand = st.selectbox(
@@ -131,12 +131,15 @@ with col6:
     )
 
 # STORAGE CONVERSION
+
 storage_map = {
+
     "128 GB": 128,
     "256 GB": 256,
     "512 GB": 512,
     "1 TB": 1024,
     "2 TB": 2048
+
 }
 
 storage = storage_map[storage_option]
@@ -163,7 +166,7 @@ with col7:
 
 display_size = float(display_option.split()[0])
 
-# RESOLUTION
+# SCREEN RESOLUTION
 with col8:
 
     resolution = st.selectbox(
@@ -265,25 +268,21 @@ st.write(f"Performance Level: {spec_level}")
 input_dict = {
 
     'RAM': ram,
-
     'storage': storage,
-
     'display_size': display_size,
-
     'spec_rating': spec_rating,
-
     'Gaming': gaming,
-
     'resolution_width': res_w,
-
     'resolution_height': res_h,
-
     'brand': brand,
-
     'OS': os
+
 }
 
-# DATAFRAME
+# ============================================
+# CREATE DATAFRAME
+# ============================================
+
 input_df = pd.DataFrame([input_dict])
 
 # ============================================
@@ -293,24 +292,33 @@ input_df = pd.DataFrame([input_dict])
 input_df = pd.get_dummies(input_df)
 
 # MATCH TRAINING COLUMNS
-input_df = input_df.reindex(columns=columns, fill_value=0)
+
+input_df = input_df.reindex(
+    columns=columns,
+    fill_value=0
+)
 
 # ============================================
-# PREDICTION BUTTON
+# PREDICT BUTTON
 # ============================================
 
 if st.button("Predict Price"):
 
-    # PREDICT
+    # ========================================
+    # PREDICTION
+    # ========================================
+
     prediction = model.predict(input_df)
 
     predicted_price = int(prediction[0])
 
     # ========================================
-    # SHOW PRICE
+    # SHOW PREDICTED PRICE
     # ========================================
 
-    st.success(f"Estimated Price: ₹{predicted_price:,}")
+    st.success(
+        f"Estimated Price: ₹{predicted_price:,}"
+    )
 
     # ========================================
     # PRICE RANGE
@@ -324,22 +332,30 @@ if st.button("Predict Price"):
     )
 
     # ========================================
-    # SIMILAR LAPTOPS
+    # SIMILAR LAPTOP FILTER
     # ========================================
 
     filtered = df[
+
         (df['RAM'] == ram) &
         (df['storage'] == storage)
+
     ]
 
+    # ========================================
     # RELAX FILTER
+    # ========================================
+
     if filtered.empty:
 
         filtered = df[
             (df['RAM'] == ram)
         ]
 
+    # ========================================
     # FINAL FALLBACK
+    # ========================================
+
     if filtered.empty:
 
         df['price_diff'] = abs(
@@ -358,14 +374,26 @@ if st.button("Predict Price"):
 
     for _, row in filtered.head(5).iterrows():
 
+        gaming_value = row.get(
+            'Gaming',
+            row.get('gaming', 0)
+        )
+
         st.markdown(f"""
+
         ### 💻 {row['brand']} - {row['Name']}
 
         - 💾 RAM: {row['RAM']} GB
+
         - 🗂 Storage: {row['storage']} GB
+
         - 🖥 Display Size: {row['display_size']} inch
-        - 🎮 Gaming Laptop: {"Yes" if row['Gaming'] == 1 else "No"}
+
+        - 🎮 Gaming Laptop:
+        {"Yes" if gaming_value == 1 else "No"}
+
         - 💰 Price: ₹{row['price_rs']:,}
 
         ---
+
         """)
